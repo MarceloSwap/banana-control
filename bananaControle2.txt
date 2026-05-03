@@ -1,0 +1,188 @@
+preciso criar uma aplicação de Controle de Banana
+
+
+Aplicativo: BananaControl
+🟡 Objetivo do app
+
+Quero que a aplicação seja feita com javaScript, React, API Rest
+Quero que tenha o FrontEnd e o Swagger juntos se vc achar que é uma boa abordagem já que o app é simples.
+
+EPIC 1 - Estrutura inicial e navegação do BananaControl
+Objetivo: disponibilizar a base do sistema com navegação simples, interface inicial e organização do projeto frontend/backend.
+
+US01 - Criar tela inicial com menu principal
+Descrição: Como produtor ou vendedor de banana, quero visualizar uma tela inicial com as principais opções do sistema para acessar rapidamente as funcionalidades.
+Critérios de aceite:
+
+A tela inicial deve exibir as opções Registrar gasto, Registrar venda, Ver lucro e Ver perdas.
+A navegação entre as telas deve funcionar corretamente.
+A interface deve ser responsiva para uso em celular e desktop.
+US02 - Estruturar frontend em React
+Descrição: Como equipe de desenvolvimento, queremos criar a base do frontend em React para suportar as telas do sistema de forma organizada e escalável.
+Critérios de aceite:
+
+O projeto frontend deve ser criado em JavaScript com React.
+Deve existir estrutura mínima de páginas, componentes e rotas.
+O frontend deve conseguir consumir a API REST.
+US03 - Estruturar backend com API REST e Swagger
+Descrição: Como equipe de desenvolvimento, queremos criar a API REST documentada com Swagger para permitir integração simples entre frontend e backend.
+Critérios de aceite:
+
+O backend deve ser criado em JavaScript.
+A API deve expor endpoints REST para gastos, vendas, perdas e resumo.
+A documentação Swagger deve estar disponível e acessível.
+Deve ser possível testar os endpoints pela interface do Swagger.
+EPIC 2 - Gestão de gastos
+Objetivo: permitir o cadastro e consulta dos gastos da operação com banana.
+
+US04 - Registrar gasto
+Descrição: Como produtor ou vendedor, quero registrar um gasto com tipo, valor e data para controlar minhas despesas.
+Critérios de aceite:
+
+O usuário deve poder informar tipo, valor e data.
+O sistema deve validar campos obrigatórios.
+O gasto deve ser salvo com sucesso na base de dados.
+Após salvar, o gasto deve aparecer na listagem.
+US05 - Editar gasto
+Descrição: Como usuário, quero editar um gasto já lançado para corrigir informações incorretas.
+Critérios de aceite:
+
+O usuário deve conseguir alterar tipo, valor e data.
+O sistema deve atualizar o registro corretamente.
+A alteração deve refletir nos totais e relatórios.
+US06 - Excluir gasto
+Descrição: Como usuário, quero excluir um gasto lançado incorretamente para manter meus dados corretos.
+Critérios de aceite:
+
+O usuário deve conseguir excluir um gasto existente.
+O sistema deve pedir confirmação antes de excluir.
+A exclusão deve atualizar totais e relatórios.
+US07 - Listar e filtrar gastos
+Descrição: Como usuário, quero visualizar meus gastos e filtrar por período e tipo para analisar minhas despesas.
+Critérios de aceite:
+
+O sistema deve listar os gastos cadastrados.
+O usuário deve poder filtrar por data inicial e final.
+O usuário deve poder filtrar por tipo de gasto.
+O resultado filtrado deve refletir corretamente os dados cadastrados.
+EPIC 3 - Gestão de vendas
+Objetivo: permitir o cadastro e consulta das vendas realizadas.
+
+US08 - Registrar venda
+Descrição: Como produtor ou vendedor, quero registrar uma venda com quantidade, preço e data para controlar meu faturamento.
+Critérios de aceite:
+
+O usuário deve poder informar quantidade vendida, preço e data.
+O sistema deve validar campos obrigatórios.
+A venda deve ser salva com sucesso.
+O valor total vendido deve ser considerado automaticamente nos cálculos.
+US09 - Editar venda
+Descrição: Como usuário, quero editar uma venda lançada para corrigir dados incorretos.
+Critérios de aceite:
+
+O usuário deve conseguir alterar quantidade, preço e data.
+A alteração deve ser salva corretamente.
+Os totais e relatórios devem ser recalculados após a edição.
+US10 - Excluir venda
+Descrição: Como usuário, quero excluir uma venda incorreta para manter meus registros confiáveis.
+Critérios de aceite:
+
+O usuário deve conseguir excluir uma venda.
+O sistema deve pedir confirmação antes da exclusão.
+Os totais devem ser atualizados após excluir.
+US11 - Listar e filtrar vendas
+Descrição: Como usuário, quero consultar minhas vendas por período para acompanhar meu desempenho comercial.
+Critérios de aceite:
+
+O sistema deve listar as vendas cadastradas.
+O usuário deve poder filtrar por intervalo de datas.
+O sistema deve apresentar o total vendido no período filtrado.
+EPIC 4 - Controle de perdas
+Objetivo: registrar e acompanhar perdas da produção ou comercialização.
+
+US12 - Registrar perda
+Descrição: Como produtor ou vendedor, quero registrar a quantidade perdida e o motivo para controlar prejuízos.
+Critérios de aceite:
+
+O usuário deve poder informar quantidade perdida, motivo e data.
+Os motivos devem incluir ao menos transporte, amadurecimento e estrago.
+O sistema deve salvar a perda corretamente.
+US13 - Editar perda
+Descrição: Como usuário, quero editar um registro de perda para corrigir informações incorretas.
+Critérios de aceite:
+
+O usuário deve conseguir alterar quantidade, motivo e data.
+As alterações devem refletir corretamente nos relatórios.
+US14 - Excluir perda
+Descrição: Como usuário, quero excluir um registro de perda incorreto para manter meus controles corretos.
+Critérios de aceite:
+
+O usuário deve conseguir excluir um registro de perda.
+O sistema deve pedir confirmação antes da exclusão.
+O total de perdas deve ser atualizado.
+US15 - Visualizar perdas por motivo
+Descrição: Como usuário, quero ver as perdas agrupadas por motivo para identificar os principais problemas da operação.
+Critérios de aceite:
+
+O sistema deve apresentar total de perdas por motivo.
+O usuário deve poder visualizar essa informação em lista ou gráfico simples.
+Os dados devem considerar os filtros aplicados, se houver.
+EPIC 5 - Lucro e relatórios
+Objetivo: consolidar os dados para exibir resultado financeiro e relatórios simples.
+
+US16 - Visualizar resumo financeiro
+Descrição: Como usuário, quero visualizar total de gastos, total de vendas e lucro final para saber o resultado do meu negócio.
+Critérios de aceite:
+
+O sistema deve exibir total de gastos.
+O sistema deve exibir total de vendas.
+O sistema deve exibir lucro final calculado automaticamente.
+Os valores devem ser atualizados com base nos lançamentos cadastrados.
+US17 - Visualizar gráfico de gastos
+Descrição: Como usuário, quero ver um gráfico de gastos para entender melhor meu comportamento de despesas.
+Critérios de aceite:
+
+O sistema deve apresentar um gráfico simples de gastos.
+O gráfico deve considerar período selecionado.
+Os valores exibidos devem estar consistentes com os lançamentos.
+US18 - Visualizar gráfico de vendas
+Descrição: Como usuário, quero ver um gráfico de vendas para acompanhar meu faturamento ao longo do tempo.
+Critérios de aceite:
+
+O sistema deve apresentar um gráfico simples de vendas.
+O gráfico deve considerar período selecionado.
+Os valores devem refletir corretamente as vendas cadastradas.
+US19 - Visualizar resumo mensal
+Descrição: Como usuário, quero visualizar um resumo mensal com gastos, vendas, perdas e lucro para apoiar minhas decisões.
+Critérios de aceite:
+
+O sistema deve consolidar os dados por mês.
+O resumo deve exibir gastos, vendas, perdas e lucro.
+O usuário deve conseguir selecionar o mês desejado.
+EPIC 6 - Qualidade e prontidão para entrega
+Objetivo: garantir que o app esteja utilizável, documentado e consistente.
+
+US20 - Validar usabilidade em dispositivo móvel
+Descrição: Como usuário final, quero usar o sistema no celular com boa legibilidade e navegação simples para registrar dados no dia a dia.
+Critérios de aceite:
+
+As telas devem funcionar bem em resolução mobile.
+Os formulários devem ser fáceis de preencher em celular.
+Os botões principais devem estar visíveis e acessíveis.
+US21 - Documentar API e fluxo básico de uso
+Descrição: Como equipe de projeto, queremos documentar a API e o uso básico do sistema para facilitar apresentação, manutenção e testes.
+Critérios de aceite:
+
+A API deve estar documentada no Swagger.
+Deve existir instrução simples para subir frontend e backend.
+Deve existir descrição resumida das funcionalidades principais.
+Minha recomendação para Jira é começar com esses 6 épicos e cadastrar primeiro as stories US01, US03, US04, US08, US12 e US16, porque elas formam o MVP mais claro.
+
+Se quiser, no próximo passo eu posso fazer uma versão ainda mais pronta para colar no Jira, com:
+
+nome curto do épico
+resumo da story
+descrição
+critérios de aceite
+prioridade
+ordem sugerida de implementação

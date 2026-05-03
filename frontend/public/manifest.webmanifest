@@ -1,0 +1,11 @@
+{
+  "name": "BananaControl",
+  "short_name": "BananaControl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4ea",
+  "theme_color": "#f3b312",
+  "description": "Controle de gastos, vendas, perdas e lucro de banana.",
+  "icons": []
+}
+
