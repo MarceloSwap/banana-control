@@ -3,9 +3,15 @@
   "short_name": "BananaControl",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f7f4ea",
-  "theme_color": "#f3b312",
-  "description": "Controle de gastos, vendas, perdas e lucro de banana.",
-  "icons": []
+  "background_color": "#f5f7f2",
+  "theme_color": "#f3c623",
+  "description": "Controle de gastos, vendas, perdas e estoque para produtores de banana.",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
-

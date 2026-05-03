@@ -1,35 +1,113 @@
 # BananaControl
 
-Aplicacao web responsiva com cara de app para controle de gastos, vendas, perdas e lucro de produtores e vendedores de banana.
+Aplicacao web responsiva para produtores acompanharem gastos, vendas, perdas, lucro e estoque de bananas, com painel administrativo e autenticacao.
 
 ## Stack
 
 - Frontend: React + Vite
 - Backend: Node.js + Express
 - Banco: MySQL
-- Documentacao: Swagger
-- Instalavel no celular: PWA
+- Autenticacao: JWT + bcrypt
+- Graficos: Recharts
+- Exportacao: Excel
+- PWA: vite-plugin-pwa
 
-## Estrutura
+## Funcionalidades
 
-- `frontend/`: interface responsiva e PWA
-- `backend/`: API REST e Swagger
-- `docs/schema.sql`: schema inicial do banco
+- Cadastro de produtores com estoque inicial e gastos iniciais opcionais.
+- Login com JWT, role `USER`/`ADMIN` e bloqueio temporario apos tentativas falhas.
+- Recuperacao de senha preparada no backend e link no frontend.
+- Dashboard do produtor com estoque atual, filtros por mes ou periodo personalizado, graficos e exportacao.
+- Registro de gastos, vendas e perdas por produtor autenticado.
+- Bloqueio de vendas/perdas quando o estoque for insuficiente.
+- Dashboard administrativo com metricas apenas de usuarios `USER`.
+- Relatorios administrativos em `/admin/relatorios`.
+- Gestao de usuarios com paginacao, bloqueio e exclusao.
+- Criacao de novas contas administradoras por admin logado.
+- Sidebar responsiva com menu mobile.
+- Toasts para feedback de sucesso e erro.
+- PWA instalavel.
 
-## Como rodar
+## Primeiro Login
 
-1. Crie o banco MySQL e execute `docs/schema.sql`.
-2. Configure `backend/.env` com suas credenciais.
-3. Instale dependencias em `frontend` e `backend`.
-4. Rode o backend com `npm run dev`.
-5. Rode o frontend com `npm run dev`.
+Depois de rodar o setup do banco:
 
-## MVP atual
+```text
+Admin master
+E-mail: admin@bananacontrol.com
+Senha: admin123
 
-- Cadastro de gastos
-- Cadastro de vendas
-- Cadastro de perdas
-- Resumo financeiro
-- Layout mobile-first
-- Manifest e service worker base para PWA
+Produtor exemplo
+E-mail: produtor@bananacontrol.com
+Senha: produtor123
+```
 
+Troque a senha do admin em ambientes reais.
+
+## Como Rodar
+
+1. Configure `backend/.env`:
+
+```env
+PORT=3001
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=sua_senha
+DB_NAME=banana_control
+FRONTEND_URL=http://localhost:5173
+JWT_SECRET=troque_este_segredo
+JWT_EXPIRES_IN=1h
+ADMIN_EMAIL=admin@bananacontrol.com
+ADMIN_PASSWORD=admin123
+SEED_SAMPLE_DATA=true
+```
+
+2. Prepare ou verifique o banco:
+
+```bash
+cd backend
+npm run db:setup
+npm run db:check
+```
+
+3. Rode o backend:
+
+```bash
+cd backend
+npm run dev
+```
+
+4. Rode o frontend:
+
+```bash
+cd frontend
+npm run dev
+```
+
+5. Acesse:
+
+```text
+Frontend: http://localhost:5173
+Backend: http://localhost:3001
+Swagger: http://localhost:3001/docs
+```
+
+## Scripts Uteis
+
+Backend:
+
+```bash
+npm run dev
+npm run start
+npm run db:setup
+npm run db:check
+```
+
+Frontend:
+
+```bash
+npm run dev
+npm run build
+npm run preview
+```
