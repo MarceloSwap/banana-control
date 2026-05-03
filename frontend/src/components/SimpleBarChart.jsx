@@ -6,6 +6,10 @@ function formatValue(value, kind) {
     }).format(Number(value || 0));
   }
 
+  if (kind === "unit") {
+    return `${Number(value || 0)} cadastros`;
+  }
+
   return `${Number(value || 0)} kg`;
 }
 

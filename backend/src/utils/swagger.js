@@ -7,6 +7,30 @@ export const swaggerDocument = {
   },
   servers: [{ url: "http://localhost:3001" }],
   paths: {
+    "/api/auth/register": {
+      post: { summary: "Cadastra produtor com estoque e gastos iniciais opcionais" }
+    },
+    "/api/auth/login": {
+      post: { summary: "Autentica usuario e retorna JWT com role" }
+    },
+    "/api/auth/forgot-password": {
+      post: { summary: "Gera token de recuperacao de senha" }
+    },
+    "/api/admin/dashboard": {
+      get: { summary: "Metricas administrativas protegidas por role ADMIN" }
+    },
+    "/api/admin/relatorios": {
+      get: { summary: "Relatorios macro administrativos calculados apenas com usuarios USER" }
+    },
+    "/api/admin/users": {
+      get: { summary: "Lista produtores" }
+    },
+    "/api/admin/admins": {
+      post: { summary: "Cria nova conta ADMIN" }
+    },
+    "/api/inventory/add": {
+      post: { summary: "Adiciona bananas ao estoque do produtor autenticado" }
+    },
     "/api/expenses": {
       get: { summary: "Lista gastos" },
       post: { summary: "Cria gasto" }

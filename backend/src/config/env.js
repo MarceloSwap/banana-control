@@ -7,6 +7,7 @@ export const env = {
   dbUser: process.env.DB_USER || "root",
   dbPassword: process.env.DB_PASSWORD || "",
   dbName: process.env.DB_NAME || "banana_control",
-  frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173"
+  frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173",
+  jwtSecret: process.env.JWT_SECRET || "banana-control-dev-secret",
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || "1h"
 };
-
