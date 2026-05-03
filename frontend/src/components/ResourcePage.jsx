@@ -1,17 +1,45 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { api } from "../services/api";
-
-const emptyByResource = {
-  expenses: { type: "transporte", amount: "", date: "" },
-  sales: { quantity: "", price: "", date: "" },
-  losses: { quantity: "", reason: "transporte", date: "" }
-};
 
 const labels = {
   expenses: "gasto",
   sales: "venda",
   losses: "perda"
 };
+
+function today() {
+  const date = new Date();
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function currentMonthRange() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const startDate = `${year}-${String(month + 1).padStart(2, "0")}-01`;
+  const lastDay = new Date(year, month + 1, 0).getDate();
+  const endDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
+  return { startDate, endDate };
+}
+
+function normalizeDate(value) {
+  return String(value || "").slice(0, 10);
+}
+
+function emptyForm(resource) {
+  const date = today();
+  const emptyByResource = {
+    expenses: { type: "transporte", amount: "", date },
+    sales: { quantity: "", price: "", date },
+    losses: { quantity: "", reason: "transporte", date }
+  };
+  return emptyByResource[resource];
+}
+
+function defaultFilters() {
+  return { ...currentMonthRange(), type: "", reason: "" };
+}
 
 function formatCurrency(value) {
   return new Intl.NumberFormat("pt-BR", {
@@ -22,10 +50,9 @@ function formatCurrency(value) {
 
 export function ResourcePage({ resource, title, description, fields }) {
   const [items, setItems] = useState([]);
-  const [form, setForm] = useState(emptyByResource[resource]);
-  const [filters, setFilters] = useState({ startDate: "", endDate: "", type: "", reason: "" });
+  const [form, setForm] = useState(() => emptyForm(resource));
+  const [filters, setFilters] = useState(defaultFilters);
   const [editingId, setEditingId] = useState(null);
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
   async function loadItems() {
@@ -34,7 +61,7 @@ export function ResourcePage({ resource, title, description, fields }) {
       const data = await api.list(resource, filters);
       setItems(data);
     } catch (error) {
-      setMessage(error.message);
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -43,6 +70,12 @@ export function ResourcePage({ resource, title, description, fields }) {
   useEffect(() => {
     loadItems();
   }, [resource, filters.startDate, filters.endDate, filters.type, filters.reason]);
+
+  useEffect(() => {
+    setForm(emptyForm(resource));
+    setFilters(defaultFilters());
+    setEditingId(null);
+  }, [resource]);
 
   function handleChange(event) {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -58,16 +91,16 @@ export function ResourcePage({ resource, title, description, fields }) {
     try {
       if (editingId) {
         await api.update(resource, editingId, form);
-        setMessage(`${labels[resource]} atualizado com sucesso.`);
+        toast.success(`${labels[resource]} atualizado com sucesso.`);
       } else {
         await api.create(resource, form);
-        setMessage(`${labels[resource]} criado com sucesso.`);
+        toast.success(`${labels[resource]} criado com sucesso.`);
       }
-      setForm(emptyByResource[resource]);
+      setForm(emptyForm(resource));
       setEditingId(null);
       await loadItems();
     } catch (error) {
-      setMessage(error.message);
+      toast.error(error.message);
     }
   }
 
@@ -77,18 +110,18 @@ export function ResourcePage({ resource, title, description, fields }) {
 
     try {
       await api.remove(resource, id);
-      setMessage(`${labels[resource]} removido com sucesso.`);
+      toast.success(`${labels[resource]} removido com sucesso.`);
       await loadItems();
     } catch (error) {
-      setMessage(error.message);
+      toast.error(error.message);
     }
   }
 
   function startEdit(item) {
     const base = { ...item };
-    if (resource === "expenses") setForm({ type: base.type, amount: base.amount, date: base.date });
-    if (resource === "sales") setForm({ quantity: base.quantity, price: base.price, date: base.date });
-    if (resource === "losses") setForm({ quantity: base.quantity, reason: base.reason, date: base.date });
+    if (resource === "expenses") setForm({ type: base.type, amount: base.amount, date: normalizeDate(base.date) });
+    if (resource === "sales") setForm({ quantity: base.quantity, price: base.price, date: normalizeDate(base.date) });
+    if (resource === "losses") setForm({ quantity: base.quantity, reason: base.reason, date: normalizeDate(base.date) });
     setEditingId(item.id);
   }
 
@@ -154,14 +187,13 @@ export function ResourcePage({ resource, title, description, fields }) {
                   className="ghost"
                   onClick={() => {
                     setEditingId(null);
-                    setForm(emptyByResource[resource]);
+                    setForm(emptyForm(resource));
                   }}
                 >
                   Cancelar
                 </button>
               ) : null}
             </div>
-            {message ? <p className="message">{message}</p> : null}
           </form>
 
           <section className="card filter-card">
@@ -201,6 +233,18 @@ export function ResourcePage({ resource, title, description, fields }) {
                   </select>
                 </label>
               ) : null}
+            </div>
+            <div className="actions">
+              <button type="button" className="ghost" onClick={() => setFilters(defaultFilters())}>
+                Mês atual
+              </button>
+              <button
+                type="button"
+                className="ghost"
+                onClick={() => setFilters((current) => ({ ...current, startDate: "", endDate: "" }))}
+              >
+                Ver tudo
+              </button>
             </div>
           </section>
         </div>

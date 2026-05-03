@@ -1,6 +1,7 @@
 import {
   createResource,
   deleteResource,
+  addStock,
   getAnalytics,
   getSummary,
   listResources,
@@ -31,7 +32,7 @@ export function buildResourceController(resource) {
   return {
     list: async (request, response, next) => {
       try {
-        const data = await listResources(resource, request.query);
+        const data = await listResources(resource, request.query, request.user.id);
         response.json(data);
       } catch (error) {
         next(error);
@@ -43,7 +44,7 @@ export function buildResourceController(resource) {
         if (message) {
           return response.status(400).json({ message });
         }
-        const id = await createResource(resource, request.body);
+        const id = await createResource(resource, request.body, request.user.id);
         response.status(201).json({ id, message: "Registro criado com sucesso." });
       } catch (error) {
         next(error);
@@ -55,7 +56,7 @@ export function buildResourceController(resource) {
         if (message) {
           return response.status(400).json({ message });
         }
-        await updateResource(resource, request.params.id, request.body);
+        await updateResource(resource, request.params.id, request.body, request.user.id);
         response.json({ message: "Registro atualizado com sucesso." });
       } catch (error) {
         next(error);
@@ -63,7 +64,7 @@ export function buildResourceController(resource) {
     },
     remove: async (request, response, next) => {
       try {
-        await deleteResource(resource, request.params.id);
+        await deleteResource(resource, request.params.id, request.user.id);
         response.json({ message: "Registro removido com sucesso." });
       } catch (error) {
         next(error);
@@ -74,17 +75,26 @@ export function buildResourceController(resource) {
 
 export async function summaryController(request, response, next) {
   try {
-    const data = await getSummary(request.query.month);
+    const data = await getSummary(request.query, request.user.id);
     response.json(data);
   } catch (error) {
     next(error);
   }
 }
 
-export async function analyticsController(_request, response, next) {
+export async function analyticsController(request, response, next) {
   try {
-    const data = await getAnalytics();
+    const data = await getAnalytics(request.user.id, request.query);
     response.json(data);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function addStockController(request, response, next) {
+  try {
+    const data = await addStock(request.user.id, request.body.quantity);
+    response.status(201).json({ ...data, message: "Estoque atualizado com sucesso." });
   } catch (error) {
     next(error);
   }
