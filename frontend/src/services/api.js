@@ -1,4 +1,13 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+function getDefaultApiUrl() {
+  if (typeof window === "undefined") {
+    return "http://localhost:3001/api";
+  }
+
+  const { hostname } = window.location;
+  return `http://${hostname}:3001/api`;
+}
+
+const API_URL = import.meta.env.VITE_API_URL || getDefaultApiUrl();
 
 function getToken() {
   return localStorage.getItem("banana_token");

@@ -89,9 +89,15 @@ npm run dev
 
 ```text
 Frontend: http://localhost:5173
+Frontend no celular: use o link "Celular" exibido no terminal do frontend
 Backend: http://localhost:3001
 Swagger: http://localhost:3001/docs
 ```
+
+Para acessar pelo celular, mantenha backend e frontend rodando no computador e abra
+somente o link `Celular` do frontend no aparelho. Esse link usa o IP local da sua
+rede, por exemplo `http://192.168.0.34:5173/`, e pode mudar quando a rede mudar.
+Nao use o IP publico da internet para esse fluxo.
 
 ## Scripts Uteis
 
