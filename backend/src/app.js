@@ -14,7 +14,40 @@ import { swaggerDocument } from "./utils/swagger.js";
 
 export const app = express();
 
-app.use(cors({ origin: env.frontendUrl }));
+function isAllowedLocalFrontend(origin) {
+  if (!origin) {
+    return true;
+  }
+
+  if (origin === env.frontendUrl) {
+    return true;
+  }
+
+  try {
+    const url = new URL(origin);
+    const isFrontendPort = url.port === "5173";
+    const isLocalhost = ["localhost", "127.0.0.1", "::1"].includes(url.hostname);
+    const isPrivateNetwork =
+      /^10\./.test(url.hostname) ||
+      /^192\.168\./.test(url.hostname) ||
+      /^172\.(1[6-9]|2\d|3[0-1])\./.test(url.hostname);
+
+    return isFrontendPort && (isLocalhost || isPrivateNetwork);
+  } catch {
+    return false;
+  }
+}
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (isAllowedLocalFrontend(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error("Origem nao permitida pelo CORS."));
+  }
+}));
 app.use(express.json());
 
 app.get("/health", (_request, response) => {
